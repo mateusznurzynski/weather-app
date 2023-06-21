@@ -1,3 +1,7 @@
+const resultElement = document.querySelector('.result');
+const weatherFormElement = document.querySelector('.weather-form');
+const searchQueryElement = document.querySelector('.search-query');
+
 const getDays = function getDays(jsonData, skipFirst) {
   const days = [];
   jsonData.forecast.forecastday.forEach((day) => {
@@ -17,8 +21,6 @@ const getWeatherData = async function getCurrentWeatherData(query) {
   );
   const weatherData = await rawData.json();
 
-  console.log(weatherData);
-
   return weatherData;
 };
 
@@ -34,4 +36,29 @@ const processForecastData = function processForecastData(jsonData) {
   return dataObject;
 };
 
-getWeatherData('Lukow');
+const startLoadingAnimation = function startLoadingAnimation() {
+  resultElement.innerHTML = 'Loading data...';
+};
+
+const getWeather = async function getWeather(searchQuery) {
+  const rawWeatherData = await getWeatherData(searchQuery);
+  const weatherData = processForecastData(rawWeatherData);
+
+  return weatherData;
+};
+
+const renderWeather = async function renderWeather(searchQuery) {
+  const weatherData = await getWeather(searchQuery);
+  console.log(weatherData);
+};
+
+weatherFormElement.addEventListener('submit', (e) => {
+  e.preventDefault();
+  const searchQuery = searchQueryElement.value;
+  if (!searchQuery) {
+    return false;
+  }
+  startLoadingAnimation();
+  renderWeather(searchQuery);
+  weatherFormElement.reset();
+});

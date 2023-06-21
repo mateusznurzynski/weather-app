@@ -47,11 +47,14 @@ input[type='text'] {
 .weather-form {
   display: flex;
   flex-direction: column;
-  justify-content: center;
   gap: 15px;
 }
 
 .input-wrapper {
   display: flex;
   gap: 5px;
+}
+
+.submit-button {
+  height: 1.5rem;
 }
