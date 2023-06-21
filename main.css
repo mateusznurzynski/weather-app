@@ -58,3 +58,40 @@ input[type='text'] {
 .submit-button {
   height: 1.5rem;
 }
+
+.result {
+  margin-top: 20px;
+  font-size: 1.2rem;
+}
+
+.weather-cards {
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  /* align-items: center; */
+  gap: 15px;
+  text-align: center;
+}
+
+.card {
+  padding: 15px;
+  border: 1px white solid;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 7px;
+}
+.main-card {
+  height: unset;
+  font-size: 3rem;
+}
+.main-img {
+  width: 128px;
+  height: 128px;
+}
+
+.cards-wrapper {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+}

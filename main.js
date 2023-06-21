@@ -50,6 +50,32 @@ const getWeather = async function getWeather(searchQuery) {
 const renderWeather = async function renderWeather(searchQuery) {
   const weatherData = await getWeather(searchQuery);
   console.log(weatherData);
+
+  resultElement.innerHTML = `<h2>Weather for: ${weatherData.location}, ${weatherData.country}, ${weatherData.time}</h2>
+  <div class="weather-cards">
+  	<div class="card main-card">
+  	  <div class="card-title">${weatherData.current.condition.text}</div>
+  	  <div class="card-content"><img class="main-img" src='https:${weatherData.current.condition.icon}'></div>
+	</div>
+	<div class="cards-wrapper">
+	<div class="card">
+	  <div class="card-title">Temperature:</div>
+	  <div class="card-content">${weatherData.current.temp_c} °C</div>
+	</div>
+	<div class="card">
+	  <div class="card-title">Feels like:</div>
+	  <div class="card-content">${weatherData.current.feelslike_c} °C</div>
+	</div>
+	<div class="card">
+	  <div class="card-title">Wind speed:</div>
+	  <div class="card-content">${weatherData.current.wind_kph} km/h</div>
+	</div>
+	<div class="card">
+	  <div class="card-title">Humidity:</div>
+	  <div class="card-content">${weatherData.current.humidity}%</div>
+	</div>
+	</div>
+  </div>`;
 };
 
 weatherFormElement.addEventListener('submit', (e) => {
