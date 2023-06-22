@@ -1,5 +1,5 @@
 import './main.css';
-import { format, parseISO, getDay } from 'date-fns';
+import { parseISO, getDay } from 'date-fns';
 
 const resultElement = document.querySelector('.result');
 const weatherFormElement = document.querySelector('.weather-form');
@@ -91,7 +91,6 @@ const getWeather = async function getWeather(searchQuery) {
 
 const renderWeather = async function renderWeather(searchQuery) {
   const weatherData = await getWeather(searchQuery);
-  console.log(weatherData);
 
   const forecastCardsElements = [];
 
@@ -135,7 +134,6 @@ const renderWeather = async function renderWeather(searchQuery) {
 
   const forecastCardsElement = createDomElement('div', 'forecast-cards');
   forecastCardsElements.forEach((cardElement) => {
-    console.log(cardElement);
     forecastCardsElement.appendChild(cardElement);
   });
   resultElement.appendChild(forecastCardsElement);
