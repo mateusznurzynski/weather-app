@@ -99,7 +99,10 @@ const renderWeather = async function renderWeather(searchQuery) {
     const forecastCardElement = createDomElement(
       'div',
       'forecast-card',
-      `<div class="card-title">${day.dayName}</div><div class="card-content"></div>`
+      `<div class="card-title">${day.dayName}</div><div class="card-content">
+	    <img class="forecast-img" src='https:${day.day.condition.icon}'>
+		<p>${day.day.avgtemp_c} °C</p>
+	  </div>`
     );
     forecastCardsElements.push(forecastCardElement);
   });
@@ -130,10 +133,12 @@ const renderWeather = async function renderWeather(searchQuery) {
 	</div>
   </div>`;
 
+  const forecastCardsElement = createDomElement('div', 'forecast-cards');
   forecastCardsElements.forEach((cardElement) => {
     console.log(cardElement);
-    resultElement.appendChild(cardElement);
+    forecastCardsElement.appendChild(cardElement);
   });
+  resultElement.appendChild(forecastCardsElement);
 };
 
 weatherFormElement.addEventListener('submit', (e) => {
