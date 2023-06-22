@@ -82,6 +82,10 @@ const startLoadingAnimation = function startLoadingAnimation() {
   resultElement.innerHTML = 'Loading data...';
 };
 
+const displayError = function displayError(query) {
+  resultElement.innerHTML = `Could not get weather data for "${query}"`;
+};
+
 const getWeather = async function getWeather(searchQuery) {
   const rawWeatherData = await getWeatherData(searchQuery);
   const weatherData = processForecastData(rawWeatherData);
@@ -90,7 +94,13 @@ const getWeather = async function getWeather(searchQuery) {
 };
 
 const renderWeather = async function renderWeather(searchQuery) {
-  const weatherData = await getWeather(searchQuery);
+  let weatherData;
+  try {
+    weatherData = await getWeather(searchQuery);
+  } catch (error) {
+    displayError(searchQuery);
+    return false;
+  }
 
   const forecastCardsElements = [];
 
@@ -137,6 +147,8 @@ const renderWeather = async function renderWeather(searchQuery) {
     forecastCardsElement.appendChild(cardElement);
   });
   resultElement.appendChild(forecastCardsElement);
+
+  return true;
 };
 
 weatherFormElement.addEventListener('submit', (e) => {
