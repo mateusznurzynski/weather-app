@@ -1,3 +1,5 @@
+import './main.css';
+
 const resultElement = document.querySelector('.result');
 const weatherFormElement = document.querySelector('.weather-form');
 const searchQueryElement = document.querySelector('.search-query');
