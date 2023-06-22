@@ -1,12 +1,51 @@
 import './main.css';
+import { format, parseISO, getDay } from 'date-fns';
 
 const resultElement = document.querySelector('.result');
 const weatherFormElement = document.querySelector('.weather-form');
 const searchQueryElement = document.querySelector('.search-query');
 
+function createDomElement(type, classesString, innerHTML) {
+  const element = document.createElement(type || 'div');
+  if (classesString) {
+    element.className = classesString;
+  }
+  if (innerHTML) {
+    element.innerHTML = innerHTML;
+  }
+
+  return element;
+}
+
+const getDayName = function getDayName(dayNumber) {
+  if (dayNumber < 0 || dayNumber > 6) {
+    return false;
+  }
+
+  switch (dayNumber) {
+    case 0:
+      return 'Sunday';
+    case 1:
+      return 'Monday';
+    case 2:
+      return 'Tuesday';
+    case 3:
+      return 'Wednesday';
+    case 4:
+      return 'Thursday';
+    case 5:
+      return 'Friday';
+    case 6:
+      return 'Saturday';
+    default:
+      return false;
+  }
+};
+
 const getDays = function getDays(jsonData, skipFirst) {
   const days = [];
   jsonData.forecast.forecastday.forEach((day) => {
+    day.dayName = getDayName(getDay(parseISO(day.date)));
     days.push(day);
   });
 
@@ -33,6 +72,7 @@ const processForecastData = function processForecastData(jsonData) {
     country: jsonData.location.country,
     location: jsonData.location.name,
     time: jsonData.location.localtime,
+    date: parseISO(jsonData.location.localtime),
   };
 
   return dataObject;
@@ -52,6 +92,17 @@ const getWeather = async function getWeather(searchQuery) {
 const renderWeather = async function renderWeather(searchQuery) {
   const weatherData = await getWeather(searchQuery);
   console.log(weatherData);
+
+  const forecastCardsElements = [];
+
+  weatherData.days.forEach((day) => {
+    const forecastCardElement = createDomElement(
+      'div',
+      'forecast-card',
+      `<div class="card-title">${day.dayName}</div><div class="card-content"></div>`
+    );
+    forecastCardsElements.push(forecastCardElement);
+  });
 
   resultElement.innerHTML = `<h2>Weather for: ${weatherData.location}, ${weatherData.country}, ${weatherData.time}</h2>
   <div class="weather-cards">
@@ -78,6 +129,11 @@ const renderWeather = async function renderWeather(searchQuery) {
 	</div>
 	</div>
   </div>`;
+
+  forecastCardsElements.forEach((cardElement) => {
+    console.log(cardElement);
+    resultElement.appendChild(cardElement);
+  });
 };
 
 weatherFormElement.addEventListener('submit', (e) => {
