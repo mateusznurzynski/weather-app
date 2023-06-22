@@ -58,7 +58,10 @@ const getDays = function getDays(jsonData, skipFirst) {
 
 const getWeatherData = async function getCurrentWeatherData(query) {
   const rawData = await fetch(
-    `http://api.weatherapi.com/v1/forecast.json?key=b5cafa5667d44f76b7b162143232106&days=7&q=${query}`
+    `http://api.weatherapi.com/v1/forecast.json?key=b5cafa5667d44f76b7b162143232106&days=7&q=${query}`,
+    {
+      mode: 'cors',
+    }
   );
   const weatherData = await rawData.json();
 
